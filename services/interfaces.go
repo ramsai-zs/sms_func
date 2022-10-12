@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"developer.zopsmart.com/go/gofr/pkg/gofr"
+	"github.com/google/uuid"
 	"sms_func/models"
 )
 
@@ -17,7 +18,7 @@ type HTTPService interface {
 type SMS interface {
 	POST(ctx *gofr.Context, sms models.SMS) (models.SMS, error)
 	PUT(ctx *gofr.Context, sms models.SMS) error
-	GetByID(ctx *gofr.Context, id string) (models.SMS, error)
+	GetByID(ctx *gofr.Context, id uuid.UUID) (models.SMS, error)
 	Get(ctx *gofr.Context) (models.SMS, error)
-	Delete(ctx *gofr.Context, id string) error
+	Delete(ctx *gofr.Context, id uuid.UUID) error
 }
