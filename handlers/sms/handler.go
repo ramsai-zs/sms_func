@@ -4,6 +4,7 @@ import (
 	"developer.zopsmart.com/go/gofr/pkg/errors"
 	"developer.zopsmart.com/go/gofr/pkg/gofr"
 	"encoding/json"
+	"github.com/hashicorp/go-uuid"
 	"sms_func/models"
 	"sms_func/services"
 )
@@ -43,10 +44,22 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 func (h handler) GetByID(ctx *gofr.Context) (interface{}, error) {
 	var s models.SMS
 
-	sms = ctx.PathParam("id")
-	if user.ChannelUserProfileID == "" {
-		return nil, errors.MissingParam{Param: []string{"userReferenceID"}}
+	s.Provider.Id = ctx.PathParam("id")
+	if s.Provider.Id == "" {
+		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
+
+	id, err := uuid.ParseUUID(s.Provider.Id)
+	if err != nil {
+		return nil, errors.InvalidParam{Param: []string{"id"}}
+	}
+
+	resp, err := h.services.GetByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }
 
 func (h handler) Udpate(c *gofr.Context) (interface{}, error) {
