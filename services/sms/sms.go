@@ -1,10 +1,10 @@
 package sms
 
 import (
-	"developer.zopsmart.com/go/gofr/examples/using-http-service/services"
 	"developer.zopsmart.com/go/gofr/pkg/gofr"
 	"github.com/google/uuid"
 	"sms_func/models"
+	"sms_func/services"
 )
 
 type service struct {
