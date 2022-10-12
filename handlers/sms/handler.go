@@ -4,7 +4,7 @@ import (
 	"developer.zopsmart.com/go/gofr/pkg/errors"
 	"developer.zopsmart.com/go/gofr/pkg/gofr"
 	"encoding/json"
-	"github.com/hashicorp/go-uuid"
+	"github.com/google/uuid"
 	"sms_func/models"
 	"sms_func/services"
 )
@@ -49,7 +49,7 @@ func (h handler) GetByID(ctx *gofr.Context) (interface{}, error) {
 		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
 
-	id, err := uuid.ParseUUID(s.Provider.Id)
+	id, err := uuid.Parse(s.Provider.Id)
 	if err != nil {
 		return nil, errors.InvalidParam{Param: []string{"id"}}
 	}
@@ -75,7 +75,7 @@ func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
 		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
 
-	id, err := uuid.ParseUUID(sms.Provider.Id)
+	id, err := uuid.Parse(sms.Provider.Id)
 	if err != nil {
 		return nil, errors.InvalidParam{Param: []string{"id"}}
 	}
@@ -93,8 +93,25 @@ func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
 	return resp, nil
 }
 
-func (h handler) Delete(c *gofr.Context) (interface{}, error) {
+func (h handler) Delete(ctx *gofr.Context) (interface{}, error) {
+	var sms models.SMS
 
+	sms.Provider.Id = ctx.PathParam("id")
+	if sms.Provider.Id == "" {
+		return nil, errors.MissingParam{Param: []string{"id"}}
+	}
+
+	id, err := uuid.Parse(sms.Provider.Id)
+	if err != nil {
+		return nil, errors.InvalidParam{Param: []string{"id"}}
+	}
+
+	err = h.services.Delete(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, err
 }
 
 // BindRequest is used to bind the request payload.
@@ -135,4 +152,10 @@ func createMandatoryCheck(sms models.SMS) error {
 	if sms.Message.TransactionalID == "" {
 		params = append(params, "transactionalID")
 	}
+
+	if len(params) == 0 {
+		return nil
+	}
+
+	return errors.MissingParam{Param: params}
 }
