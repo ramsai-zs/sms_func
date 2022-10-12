@@ -62,8 +62,35 @@ func (h handler) GetByID(ctx *gofr.Context) (interface{}, error) {
 	return resp, nil
 }
 
-func (h handler) Udpate(c *gofr.Context) (interface{}, error) {
+func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
+	var sms models.SMS
 
+	err := bindRequest(ctx, &sms)
+	if err != nil {
+		return nil, err
+	}
+
+	sms.Provider.Id = ctx.PathParam("id")
+	if sms.Provider.Id == "" {
+		return nil, errors.MissingParam{Param: []string{"id"}}
+	}
+
+	id, err := uuid.ParseUUID(sms.Provider.Id)
+	if err != nil {
+		return nil, errors.InvalidParam{Param: []string{"id"}}
+	}
+
+	err = h.services.PUT(ctx, sms)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := h.services.GetByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }
 
 func (h handler) Delete(c *gofr.Context) (interface{}, error) {
