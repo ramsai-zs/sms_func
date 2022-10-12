@@ -3,6 +3,7 @@ package sms
 import (
 	"developer.zopsmart.com/go/gofr/examples/using-http-service/services"
 	"developer.zopsmart.com/go/gofr/pkg/gofr"
+	"github.com/google/uuid"
 	"sms_func/models"
 )
 
@@ -26,7 +27,7 @@ func (s service) PUT(ctx *gofr.Context, sms models.SMS) error {
 	panic("implement me")
 }
 
-func (s service) GetByID(ctx *gofr.Context, id string) (models.SMS, error) {
+func (s service) GetByID(ctx *gofr.Context, id uuid.UUID) (models.SMS, error) {
 	//TODO implement me
 	panic("implement me")
 }
@@ -36,7 +37,7 @@ func (s service) Get(ctx *gofr.Context) (models.SMS, error) {
 	panic("implement me")
 }
 
-func (s service) Delete(ctx *gofr.Context, id string) error {
+func (s service) Delete(ctx *gofr.Context, id uuid.UUID) error {
 	//TODO implement me
 	panic("implement me")
 }
