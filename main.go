@@ -16,7 +16,7 @@ func main() {
 
 	app.POST("/sms", handler.Create)
 	app.GET("/sms/{id}", handler.GetByID)
-	app.PUT("/sms/{id}", handler.Udpate)
+	app.PUT("/sms/{id}", handler.Update)
 	app.DELETE("/sms", handler.Delete)
 
 	app.Start()
