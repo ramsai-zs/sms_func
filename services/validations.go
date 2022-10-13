@@ -1,9 +1,10 @@
 package services
 
 import (
+	"encoding/json"
+
 	"developer.zopsmart.com/go/gofr/pkg/errors"
 	"developer.zopsmart.com/go/gofr/pkg/service"
-	"encoding/json"
 )
 
 func GetError(res *service.Response) error {

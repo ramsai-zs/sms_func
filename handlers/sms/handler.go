@@ -44,12 +44,12 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 func (h handler) GetByID(ctx *gofr.Context) (interface{}, error) {
 	var s models.SMS
 
-	s.Provider.Id = ctx.PathParam("id")
-	if s.Provider.Id == "" {
+	s.Provider.ID = ctx.PathParam("id")
+	if s.Provider.ID == "" {
 		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
 
-	id, err := uuid.Parse(s.Provider.Id)
+	id, err := uuid.Parse(s.Provider.ID)
 	if err != nil {
 		return nil, errors.InvalidParam{Param: []string{"id"}}
 	}
@@ -70,12 +70,12 @@ func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
 		return nil, err
 	}
 
-	sms.Provider.Id = ctx.PathParam("id")
-	if sms.Provider.Id == "" {
+	sms.Provider.ID = ctx.PathParam("id")
+	if sms.Provider.ID == "" {
 		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
 
-	id, err := uuid.Parse(sms.Provider.Id)
+	id, err := uuid.Parse(sms.Provider.ID)
 	if err != nil {
 		return nil, errors.InvalidParam{Param: []string{"id"}}
 	}
@@ -96,12 +96,12 @@ func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
 func (h handler) Delete(ctx *gofr.Context) (interface{}, error) {
 	var sms models.SMS
 
-	sms.Provider.Id = ctx.PathParam("id")
-	if sms.Provider.Id == "" {
+	sms.Provider.ID = ctx.PathParam("id")
+	if sms.Provider.ID == "" {
 		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
 
-	id, err := uuid.Parse(sms.Provider.Id)
+	id, err := uuid.Parse(sms.Provider.ID)
 	if err != nil {
 		return nil, errors.InvalidParam{Param: []string{"id"}}
 	}

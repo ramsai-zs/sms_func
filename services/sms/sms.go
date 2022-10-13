@@ -18,26 +18,71 @@ func New(httpService services.HTTPService) service {
 }
 
 func (s service) POST(ctx *gofr.Context, sms models.SMS) (models.SMS, error) {
-	//TODO implement me
-	panic("implement me")
+	_, err := s.create(ctx, sms)
+	if err != nil {
+		return models.SMS{}, err
+	}
+
+	_, err = s.createMessage(ctx, sms)
+	if err != nil {
+		return models.SMS{}, err
+	}
+
+	return models.SMS{}, nil
 }
 
 func (s service) PUT(ctx *gofr.Context, sms models.SMS) error {
-	//TODO implement me
-	panic("implement me")
+	err := s.update(ctx, sms)
+	if err != nil {
+		return err
+	}
+
+	err = s.updateMessage(ctx, sms)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (s service) GetByID(ctx *gofr.Context, id uuid.UUID) (models.SMS, error) {
-	//TODO implement me
-	panic("implement me")
+	_, err := s.getByID(ctx, id)
+	if err != nil {
+		return models.SMS{}, err
+	}
+
+	_, err = s.getByProviderID(ctx, id)
+	if err != nil {
+		return models.SMS{}, err
+	}
+
+	return models.SMS{}, err
 }
 
-func (s service) Get(ctx *gofr.Context) (models.SMS, error) {
-	//TODO implement me
-	panic("implement me")
+func (s service) Get(ctx *gofr.Context) ([]models.SMS, error) {
+	_, err := s.get(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = s.getAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
 }
 
 func (s service) Delete(ctx *gofr.Context, id uuid.UUID) error {
-	//TODO implement me
-	panic("implement me")
+	err := s.delete(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	err = s.deleteMessage(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	return err
 }
